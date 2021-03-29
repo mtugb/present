@@ -1,1 +1,161 @@
-hello
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+
+    <style id="webmakerstyle">
+        * {
+            appearance: none;
+            -webkit-appearance: none;
+            border-radius: 0;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: 0;
+            border: 0;
+            background: none;
+            font-size: 50px;
+        }
+
+        input {
+            width: 60px;
+            height: 60px;
+            outline: 1px solid #ccc;
+        }
+
+        div {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
+        btn {
+            padding: 5px 15px;
+            font-size: 22px;
+            display: inline-block;
+            box-shadow: 0 0 2px 1px #ccc;
+            margin: 10px 20px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        table {
+            width: 50px;
+            margin: 10px auto;
+        }
+
+        td {
+            font-size: 20px;
+            text-align: center;
+        }
+
+        td.bunsu {
+            border-bottom: 1px solid #000;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div>
+        <input type="number" value="2">
+        &nbsp;&nbsp;X²&nbsp;+&nbsp;
+        <input type="number" value="8">
+        &nbsp;&nbsp;X&nbsp;+&nbsp;
+        <input type="number" value="2">
+        <br>
+        <table>
+            <tr>
+                <td class="bunsu">5</td>
+            </tr>
+            <tr>
+                <td>5</td>
+            </tr>
+        </table>
+        <center>
+            <btn>解く</btn>
+        </center>
+    </div>
+
+    <script>
+        const inputs = document.getElementsByTagName('input');
+        const result = document.getElementsByTagName('td');
+
+        document.getElementsByTagName('btn')[0].addEventListener('click', rl);
+
+
+        function rl() {
+            var a = Number(inputs[0].value);
+            var b = Number(inputs[1].value);
+            var c = Number(inputs[2].value);
+            var a1 = -1 * b;
+            var b1 = b * b - 4 * a * c;
+            var c1 = 2 * a;
+            var b2 = '';
+            if (b * b - 4 * a * c >= 0) {
+                if (b1 === 0) {
+                    // 解が一つ
+                    console.log('解が一つ');
+                    result[0].textContent = (a1);
+                    result[1].textContent = c1;
+                } else if (Number.isInteger(b1)) {
+
+
+                    for (let l = b1/2; l > 1 ; l--) {
+                        if (b1 % ((l + 1) * (l + 1)) === 0) {
+                            // 何かの二乗で割り切れるとき
+                            b2 = (l + 1);
+                            var b3 = b1 / ((l + 1) * (l + 1));
+                            b1 = b3;
+                            console.log('二条操作'+(l+1)+'あと「'+b3+'」')
+                        }
+                        console.log("\n" + (l + 1))
+                    }
+                    if (b1 === 1) {
+                        result[0].textContent = (a1 + b2 + ',' + a1 - b2);
+                        result[1].textContent = c1;
+                    } else {
+                        if (b2 != '') {
+                            // 何かの二乗で割り切れるとき
+                            console.log('何かの二乗で割り切れるとき');
+                            var joken = Math.abs(c1) % 2 === 0 && Math.abs(a1) % 2 === 0 && Math.abs(b2) % 2 === 0;
+                            if (joken) {
+                                c1 /= 2;
+                                a1 /= 2;
+                                b2 /= 2;
+                                alert('joken')
+                            }
+                            if (b2 !== 1) {
+                                result[0].textContent = (a1 + '±' + b2 + '√' + b1);
+                                result[1].textContent = c1;
+                            } else {
+                                result[0].textContent = (a1 + '±' + '√' + b1);
+                                result[1].textContent = c1;
+                            }
+                        } else {
+                            // 何かの二乗で割れないとき
+                            console.log('何かの二乗で割れないとき');
+                            result[0].textContent = (a1 + '±√' + b1);
+                            result[1].textContent = c1;
+                        }
+                    }
+                } else {
+                    // ルート内が小数の時
+
+                }
+
+            } else {
+                result[0].textContent = ('実数解がありません');
+                result[1].textContent = ('');
+            }
+            console.log(a1 + ':' + b1 + ':' + b2 + ':' + c1);
+        }
+        //# sourceURL=userscript.js
+
+    </script>
+</body>
+
+</html>
